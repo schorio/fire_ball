@@ -59,6 +59,14 @@ public class fire_ball extends MIDlet {
 
                 playerY += dy;
 
+                for (Enumeration e = balloons.elements(); e.hasMoreElements();) {
+                    Balloon balloon = (Balloon) e.nextElement();
+                    balloon.y += balloonSpeed;
+                    if (balloon.y > getHeight()) {
+                        balloons.removeElement(balloon);
+                    }
+                }
+
                 repaint();
 
                 try {
