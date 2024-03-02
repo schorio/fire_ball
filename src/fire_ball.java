@@ -59,6 +59,25 @@ public class fire_ball extends MIDlet {
 
                 playerY += dy;
 
+                if (random.nextDouble() < 0.05) {
+                    int balloonX;
+                    do {
+                        balloonX = random.nextInt(getWidth());
+                    } while (balloonX >= playerX - 20 && balloonX <= playerX + 30);
+                    Balloon newBalloon = new Balloon(balloonX, 0);
+                    boolean tooClose = false;
+                    for (Enumeration e = balloons.elements(); e.hasMoreElements();) {
+                        Balloon balloon = (Balloon) e.nextElement();
+                        if (Math.abs(balloon.x - newBalloon.x) < 18) {
+                            tooClose = true;
+                            break;
+                        }
+                    }
+                    if (!tooClose) {
+                        balloons.addElement(newBalloon);
+                    }
+                }
+
                 for (Enumeration e = balloons.elements(); e.hasMoreElements();) {
                     Balloon balloon = (Balloon) e.nextElement();
                     balloon.y += balloonSpeed;
