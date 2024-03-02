@@ -5,6 +5,7 @@ import java.util.*;
 public class fire_ball extends MIDlet {
     private Display display;
     private GameCanvas gameCanvas;
+    private Random random = new Random();
 
     public fire_ball() {
         display = Display.getDisplay(this);
@@ -12,6 +13,7 @@ public class fire_ball extends MIDlet {
     }
 
     public void startApp() {
+        gameCanvas.balloons.addElement(new Balloon(random.nextInt(gameCanvas.getWidth()), 0));
         display.setCurrent(gameCanvas);
         new Thread(gameCanvas).start();
     }
@@ -24,12 +26,19 @@ public class fire_ball extends MIDlet {
         int playerX = 0;
         int playerY = getHeight() / 2;
         int dy = 0;
+        int balloonSpeed = 2;
+        Vector balloons = new Vector();
 
         public void paint(Graphics g) {
             g.setColor(255, 255, 255);
             g.fillRect(0, 0, getWidth(), getHeight());
             g.setColor(0, 0, 0);
             g.fillRect(playerX, playerY, 7, 5);
+
+            for (Enumeration e = balloons.elements(); e.hasMoreElements();) {
+                Balloon balloon = (Balloon) e.nextElement();
+                g.fillArc(balloon.x, balloon.y, 18, 18, 0, 360);
+            }
         }
 
         public void keyPressed(int keyCode) {
@@ -47,14 +56,26 @@ public class fire_ball extends MIDlet {
 
         public void run() {
             while (true) {
+
                 playerY += dy;
+
                 repaint();
+
                 try {
                     Thread.sleep(100);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
             }
+        }
+    }
+
+    class Balloon {
+        int x, y;
+
+        public Balloon(int x, int y) {
+            this.x = x;
+            this.y = y;
         }
     }
 }
