@@ -53,6 +53,8 @@ public class fire_ball extends MIDlet {
                 dy = -10;
             } else if (action == DOWN) {
                 dy = 10;
+            } else if (action == FIRE) {
+                bullets.addElement(new Bullet(playerX + 10, playerY + 2));
             }
         }
 
