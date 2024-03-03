@@ -27,6 +27,7 @@ public class fire_ball extends MIDlet {
         int playerY = getHeight() / 2;
         int dy = 0;
         int balloonSpeed = 2;
+        boolean paused = false;
         Vector balloons = new Vector();
         Vector bullets = new Vector();
 
@@ -64,55 +65,57 @@ public class fire_ball extends MIDlet {
 
         public void run() {
             while (true) {
+                if (!paused) {
+                    
+                    playerY += dy;
 
-                playerY += dy;
+                    for (Enumeration e = bullets.elements(); e.hasMoreElements();) {
+                        Bullet bullet = (Bullet) e.nextElement();
+                        bullet.x += 10;
+                    }
 
-                for (Enumeration e = bullets.elements(); e.hasMoreElements();) {
-                    Bullet bullet = (Bullet) e.nextElement();
-                    bullet.x += 10;
-                }
+                    if (random.nextDouble() < 0.05) {
+                        int balloonX;
+                        do {
+                            balloonX = random.nextInt(getWidth());
+                        } while (balloonX >= playerX - 20 && balloonX <= playerX + 30);
+                        Balloon newBalloon = new Balloon(balloonX, 0);
+                        boolean tooClose = false;
+                        for (Enumeration e = balloons.elements(); e.hasMoreElements();) {
+                            Balloon balloon = (Balloon) e.nextElement();
+                            if (Math.abs(balloon.x - newBalloon.x) < 18) {
+                                tooClose = true;
+                                break;
+                            }
+                        }
+                        if (!tooClose) {
+                            balloons.addElement(newBalloon);
+                        }
+                    }
 
-                if (random.nextDouble() < 0.05) {
-                    int balloonX;
-                    do {
-                        balloonX = random.nextInt(getWidth());
-                    } while (balloonX >= playerX - 20 && balloonX <= playerX + 30);
-                    Balloon newBalloon = new Balloon(balloonX, 0);
-                    boolean tooClose = false;
                     for (Enumeration e = balloons.elements(); e.hasMoreElements();) {
                         Balloon balloon = (Balloon) e.nextElement();
-                        if (Math.abs(balloon.x - newBalloon.x) < 18) {
-                            tooClose = true;
-                            break;
-                        }
-                    }
-                    if (!tooClose) {
-                        balloons.addElement(newBalloon);
-                    }
-                }
-
-                for (Enumeration e = balloons.elements(); e.hasMoreElements();) {
-                    Balloon balloon = (Balloon) e.nextElement();
-                    balloon.y += balloonSpeed;
-                    if (balloon.y > getHeight()) {
-                        balloons.removeElement(balloon);
-                    }
-                    for (Enumeration be = bullets.elements(); be.hasMoreElements();) {
-                        Bullet bullet = (Bullet) be.nextElement();
-                        if (bullet.x >= balloon.x && bullet.x <= balloon.x + 18 && bullet.y >= balloon.y && bullet.y <= balloon.y + 18) {
+                        balloon.y += balloonSpeed;
+                        if (balloon.y > getHeight()) {
                             balloons.removeElement(balloon);
-                            bullets.removeElement(bullet);
-                            break;
+                        }
+                        for (Enumeration be = bullets.elements(); be.hasMoreElements();) {
+                            Bullet bullet = (Bullet) be.nextElement();
+                            if (bullet.x >= balloon.x && bullet.x <= balloon.x + 18 && bullet.y >= balloon.y && bullet.y <= balloon.y + 18) {
+                                balloons.removeElement(balloon);
+                                bullets.removeElement(bullet);
+                                break;
+                            }
                         }
                     }
-                }
 
-                repaint();
+                    repaint();
 
-                try {
-                    Thread.sleep(100);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
+                    try {
+                        Thread.sleep(100);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
         }
