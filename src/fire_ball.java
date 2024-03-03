@@ -28,12 +28,18 @@ public class fire_ball extends MIDlet {
         int dy = 0;
         int balloonSpeed = 2;
         Vector balloons = new Vector();
+        Vector bullets = new Vector();
 
         public void paint(Graphics g) {
             g.setColor(255, 255, 255);
             g.fillRect(0, 0, getWidth(), getHeight());
             g.setColor(0, 0, 0);
             g.fillRect(playerX, playerY, 7, 5);
+
+            for (Enumeration e = bullets.elements(); e.hasMoreElements();) {
+                Bullet bullet = (Bullet) e.nextElement();
+                g.fillRect(bullet.x, bullet.y, 3, 3);
+            }
 
             for (Enumeration e = balloons.elements(); e.hasMoreElements();) {
                 Balloon balloon = (Balloon) e.nextElement();
@@ -94,6 +100,15 @@ public class fire_ball extends MIDlet {
                     e.printStackTrace();
                 }
             }
+        }
+    }
+
+    class Bullet {
+        int x, y;
+
+        public Bullet(int x, int y) {
+            this.x = x;
+            this.y = y;
         }
     }
 
