@@ -56,6 +56,8 @@ public class fire_ball extends MIDlet {
                 dy = 10;
             } else if (action == FIRE) {
                 bullets.addElement(new Bullet(playerX + 10, playerY + 2));
+            } else if (keyCode == KEY_NUM0) {
+                paused = !paused;
             }
         }
 
@@ -66,7 +68,7 @@ public class fire_ball extends MIDlet {
         public void run() {
             while (true) {
                 if (!paused) {
-                    
+
                     playerY += dy;
 
                     for (Enumeration e = bullets.elements(); e.hasMoreElements();) {
