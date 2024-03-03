@@ -65,6 +65,11 @@ public class fire_ball extends MIDlet {
 
                 playerY += dy;
 
+                for (Enumeration e = bullets.elements(); e.hasMoreElements();) {
+                    Bullet bullet = (Bullet) e.nextElement();
+                    bullet.x += 10;
+                }
+
                 if (random.nextDouble() < 0.05) {
                     int balloonX;
                     do {
