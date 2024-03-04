@@ -111,6 +111,10 @@ public class fire_ball extends MIDlet {
                                 balloons.removeElement(balloon);
                                 bullets.removeElement(bullet);
                                 score++;
+                                if (score % 5 == 0) {
+                                    level++;
+                                    balloonSpeed++;
+                                }
                                 break;
                             }
                         }
