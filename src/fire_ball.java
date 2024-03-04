@@ -110,6 +110,7 @@ public class fire_ball extends MIDlet {
                             if (bullet.x >= balloon.x && bullet.x <= balloon.x + 18 && bullet.y >= balloon.y && bullet.y <= balloon.y + 18) {
                                 balloons.removeElement(balloon);
                                 bullets.removeElement(bullet);
+                                score++;
                                 break;
                             }
                         }
