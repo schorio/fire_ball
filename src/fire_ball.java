@@ -27,6 +27,8 @@ public class fire_ball extends MIDlet {
         int playerY = getHeight() / 2;
         int dy = 0;
         int balloonSpeed = 2;
+        int score = 0;
+        int level = 1;
         boolean paused = false;
         Vector balloons = new Vector();
         Vector bullets = new Vector();
@@ -36,6 +38,8 @@ public class fire_ball extends MIDlet {
             g.fillRect(0, 0, getWidth(), getHeight());
             g.setColor(0, 0, 0);
             g.fillRect(playerX, playerY, 7, 5);
+            g.drawString("Level: " + level, 10, getHeight() - 20, Graphics.TOP | Graphics.LEFT);
+            g.drawString("Score: " + score, getWidth() - 50, getHeight() - 20, Graphics.TOP | Graphics.LEFT);
 
             for (Enumeration e = bullets.elements(); e.hasMoreElements();) {
                 Bullet bullet = (Bullet) e.nextElement();
